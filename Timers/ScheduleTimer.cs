@@ -24,6 +24,11 @@ namespace WeatherCollector.Timers
         
         public async Task CallMethodAsync()
         {
+            Console.WriteLine(
+                string.Format("Chamada da API OpenWeather em {0} às {1}", 
+                    DateTime.Now.ToString("MM/dd/yyyy"), 
+                    DateTime.Now.ToString("hh:mm tt"))
+            );
             await FileManagement.GetDataAsync();
         }
     }

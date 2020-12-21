@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -16,11 +17,13 @@ namespace WeatherCollector.IO
         private readonly IConfiguration _configuration;
         public string ApiKey { get; }
         public List<string> Cities { get; }
+        public string FilePath { get; set; }
         
         public FileManagement(IConfiguration configuration)
         {
             _configuration = configuration;
 
+            FilePath = _configuration.GetValue<string>("WinFileDir");
             ApiKey = _configuration.GetValue<string>("OpenWeatherKey");
             Cities = _configuration.GetSection("Cities").Get<List<string>>();
 
@@ -45,7 +48,25 @@ namespace WeatherCollector.IO
                 var parsedObject = JObject.Parse(jsonData);
                 var tempJson = parsedObject["main"].ToString();
                 var content = JsonConvert.DeserializeObject<Temperature>(tempJson);
+
+                var id = parsedObject["id"].ToString();
+
+                var weatherModel = new WeatherCollect
+                {
+                    Id = int.Parse(id),
+                    City = item,
+                    Temperature = content.Temp,
+                    DateTime = DateTime.Now
+                };
+
+                AddInfoToFile(weatherModel);
             }
+        }
+
+        private void AddInfoToFile(WeatherCollect collect)
+        {
+            using StreamWriter sw = new StreamWriter(FilePath, true);
+            sw.WriteLine(collect.ToString());
         }
     }
 }
