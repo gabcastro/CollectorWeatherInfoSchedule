@@ -14,7 +14,7 @@ namespace WeatherCollector.Timers
             FileManagement = new FileManagement(configuration);
 
             var startTimeSpan = TimeSpan.Zero;
-            var periodTimeSpan = TimeSpan.FromMinutes(1);
+            var periodTimeSpan = TimeSpan.FromMinutes(15);
 
             var timer = new System.Threading.Timer(async (e) =>
             {

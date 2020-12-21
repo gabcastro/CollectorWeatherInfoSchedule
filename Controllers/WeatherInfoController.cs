@@ -1,5 +1,7 @@
 using System.Net.Mime;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WeatherCollector.Repositories;
 
 namespace WeatherCollector.Controller
 {
@@ -8,14 +10,30 @@ namespace WeatherCollector.Controller
     [Produces(MediaTypeNames.Application.Json)]
     public class WeatherInfoController : ControllerBase
     {
+        private readonly WeatherInfoRepository _weatherInfoRepository;
+        
         public WeatherInfoController() 
         {
         }
 
+        /// <summary>
+        /// Get informations of temperature to some city
+        /// Conditions: 
+        ///     - Parameters must especify
+        /// </summary>
+        /// <param name="city"></param>
+        /// <param name="start_date"></param>
+        /// <param name="end_date"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("")]
-        public IActionResult Get()
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult Get(string city, string start_date, string end_date)
         {
+            if (string.IsNullOrEmpty(city) || string.IsNullOrEmpty(start_date) || string.IsNullOrEmpty(end_date))
+                return BadRequest("Todos os campos devem ser preechidos");
+
+            
             return Ok("Yeap, working");
         }
     }
