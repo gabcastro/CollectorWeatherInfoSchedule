@@ -1,23 +1,30 @@
 using System;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using WeatherCollector.IO;
 
 namespace WeatherCollector.Timers
 {
     public class ScheduleTimer
     {
-        public ScheduleTimer()
+        public FileManagement FileManagement { get; }
+
+        public ScheduleTimer(IConfiguration configuration)
         {
+            FileManagement = new FileManagement(configuration);
+
             var startTimeSpan = TimeSpan.Zero;
             var periodTimeSpan = TimeSpan.FromMinutes(1);
 
-            var timer = new System.Threading.Timer((e) =>
+            var timer = new System.Threading.Timer(async (e) =>
             {
-                Your_method();   
+                await CallMethodAsync();   
             }, null, startTimeSpan, periodTimeSpan);
         }
         
-        public void Your_method()
+        public async Task CallMethodAsync()
         {
-            Console.WriteLine("teste timer");
+            await FileManagement.GetDataAsync();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace WeatherCollector
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            Ticket = new ScheduleTimer();
+            Ticket = new ScheduleTimer(Configuration);
             DirectoryHelper = new FileDirectoryHelper(Configuration);
         }
 
