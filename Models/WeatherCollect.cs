@@ -9,6 +9,6 @@ namespace WeatherCollector.Models
         public double Temperature { get; set; }
         public DateTime DateTime { get; set; }
 
-        public override string ToString() => $"{Id};{City};{Temperature};{DateTime:MM/dd/yyyy HH:mm}";
+        public override string ToString() => $"{Id};{City};{Temperature};{DateTime:dd/MM/yyyy}";
     }
 }

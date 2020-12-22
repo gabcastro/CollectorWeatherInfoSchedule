@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using WeatherCollector.IO;
+using WeatherCollector.Repositories;
 using WeatherCollector.Timers;
 
 namespace WeatherCollector
@@ -32,6 +33,8 @@ namespace WeatherCollector
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddTransient<WeatherInfoRepository, WeatherInfoRepository>();
             
             services.AddSwaggerGen(options =>
             {
